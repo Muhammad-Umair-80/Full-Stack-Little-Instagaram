@@ -1,7 +1,22 @@
-const app = require ("./src/app.js")
+require("dotenv").config();
+require("dns").setDefaultResultOrder("ipv4first");
+const app = require('./src/app.js');
+  
 
-app.listen(3000, ()=>{
+const connectDB = require('./src/db/db.js');
 
-    console.log("server is connected to port 3000")
-})
+const start = async () => {
+  try {
+    await connectDB();
+    console.log('Database connection established!');
 
+    app.listen(3000, () => {
+      console.log('Server is running on port 3000');
+    });
+  } catch (error) {
+    console.error('Failed to start server due to MongoDB connection error.');
+    process.exit(1);
+  }
+};
+
+start();
