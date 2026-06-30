@@ -13,12 +13,17 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 app.post('/create-post', upload.single('image'), async (req, res) => {
     try {
-        console.log(req.body);
-        console.log(req.file);
+        
 
         const result = await uploadImageToImageKit(req.file.buffer);
+        const newPost = new postModel({
+            image: result.url,
+            caption: req.body.caption
+        });
+        const savedPost = await newPost.save();
         console.log('Image uploaded to ImageKit:', result);
-        res.json({ success: true, message: 'Data received' });
+        console.log('Post saved to MongoDB:', savedPost);
+        res.json({ success: true, message: 'Post created', post: savedPost });
     }
     catch (error) {
         console.error('Error creating post:', error);
