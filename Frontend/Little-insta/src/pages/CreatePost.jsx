@@ -6,8 +6,7 @@ const CreatePost = () => {
       <h1>Create Post</h1>
 
       <form>
-        <
-            input type="file" name="image" accept="image/*" required />
+        <input type="file" name="image" accept="image/*" required />
         <input type="text" name="caption" placeholder="Caption" />
         <button type="submit">Create Post</button>
       </form>
