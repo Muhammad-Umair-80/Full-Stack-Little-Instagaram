@@ -16,14 +16,14 @@ app.post('/create-post', upload.single('image'), async (req, res) => {
         
 
         const result = await uploadImageToImageKit(req.file.buffer);
-        const newPost = new postModel({
+        const Post = await postModel.create({
             image: result.url,
             caption: req.body.caption
         });
-        const savedPost = await newPost.save();
+        
         console.log('Image uploaded to ImageKit:', result);
-        console.log('Post saved to MongoDB:', savedPost);
-        res.json({ success: true, message: 'Post created', post: savedPost });
+        console.log('Post saved to MongoDB:', Post);
+        res.json({ success: true, message: 'Post created' });
     }
     catch (error) {
         console.error('Error creating post:', error);
@@ -35,4 +35,8 @@ app.post('/create-post', upload.single('image'), async (req, res) => {
     }
 });
 
+app.get('/posts', async (req, res) => { 
+    const posts = await postModel.find();
+    return res.status(200).json({ success: true, posts });
+});
 module.exports = app 
