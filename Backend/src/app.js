@@ -4,8 +4,12 @@ const express = require('express');
 const multer = require('multer');
 const postModel = require('./models/post.model.js');
 const uploadImageToImageKit = require('./services/storage.service.js');
+const cors = require('cors');
+
+
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Configure multer for handling form-data
